@@ -25,7 +25,6 @@
 
 static const char *TAG = "UART_UDP";
 
-/* ================= WIFI ================= */
 static void wifi_init(void)
 {
     ESP_ERROR_CHECK(nvs_flash_init());
@@ -53,7 +52,6 @@ static void wifi_init(void)
     vTaskDelay(pdMS_TO_TICKS(5000));
 }
 
-/* ================= UART ================= */
 static void uart_init(void)
 {
     uart_config_t uart_config = {
@@ -75,9 +73,7 @@ static void uart_init(void)
                      UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
 }
 
-/* ================= MAPEOS ================= */
 
-// SOIL1 → sensor capacitivo normal (invertido)
 static int map_soil1(int raw)
 {
     int percent = (4095 - raw) * 100 / 4095;
@@ -86,7 +82,6 @@ static int map_soil1(int raw)
     return percent;
 }
 
-// SOIL2 → sensor tipo lluvia (directo)
 static int map_soil2(int raw)
 {
     int percent = raw * 100 / 4095;
@@ -111,7 +106,6 @@ static int map_rain(int raw)
     return (raw > 1500) ? 1 : 0;
 }
 
-/* ================= TASK ================= */
 static void uart_udp_task(void *arg)
 {
     char buf[BUF_SIZE];
@@ -186,7 +180,6 @@ static void uart_udp_task(void *arg)
     }
 }
 
-/* ================= MAIN ================= */
 void app_main(void)
 {
     wifi_init();
